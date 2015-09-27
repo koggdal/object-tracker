@@ -23,10 +23,23 @@ export default class Mouse {
         this._moveHandler(this.x, this.y);
       }
     });
+
+    window.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      if (this._clickHandler) {
+        this._clickHandler(event.pageX, event.pageY);
+      }
+    });
   }
 
   setMoveHandler(handler) {
     this._moveHandler = handler;
+  }
+
+  setClickHandler(handler) {
+    // Handler receives x and y
+    this._clickHandler = handler;
   }
 
 }
