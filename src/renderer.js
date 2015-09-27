@@ -152,15 +152,14 @@ function renderMap(path) {
     if (isObstacle || isInPath) {
       if (isObstacle) {
         canvasContext.fillStyle = theme.obstacleColor;
-      } else if (isInPath) {
-        canvasContext.fillStyle = theme.pathColor;
-      }
-      canvasContext.fill();
-
-      if (isObstacle) {
         canvasContext.lineWidth = dpi(theme.obstacleBorderThickness);
         canvasContext.strokeStyle = theme.obstacleBorderColor;
+      } else if (isInPath) {
+        canvasContext.fillStyle = theme.pathColor;
+        canvasContext.lineWidth = dpi(theme.pathBorderThickness);
+        canvasContext.strokeStyle = theme.pathBorderColor;
       }
+      canvasContext.fill();
     } else {
       canvasContext.lineWidth = dpi(theme.tileBorderThickness);
       canvasContext.strokeStyle = theme.tileBorderColor;

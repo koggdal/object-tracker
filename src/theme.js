@@ -13,5 +13,7 @@ export default {
 
   trackerColor: '#a0a0a0',
 
-  pathColor: 'lime'
+  pathColor: 'lime',
+  pathBorderColor: 'transparent',
+  pathBorderThickness: 1
 };

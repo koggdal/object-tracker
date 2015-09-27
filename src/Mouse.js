@@ -12,6 +12,17 @@ export default class Mouse {
         this._moveHandler(this.x, this.y);
       }
     });
+
+    window.addEventListener('touchmove', (event) => {
+      event.preventDefault();
+
+      this.x = event.changedTouches[0].pageX;
+      this.y = event.changedTouches[0].pageY;
+
+      if (this._moveHandler) {
+        this._moveHandler(this.x, this.y);
+      }
+    });
   }
 
   setMoveHandler(handler) {

@@ -27,7 +27,7 @@ function findPath(map, start, end) {
 
     // Find node in Open list with lowest F cost
     const currentNode = openList.reduce((lowestNode, node) => {
-      if (!lowestNode || lowestNode.fCost > node.fCost) {
+      if (!lowestNode || lowestNode.fCost >= node.fCost) {
         return node;
       }
       return lowestNode;
@@ -46,9 +46,7 @@ function findPath(map, start, end) {
     if (currentNode.index === endIndex) {
       let nodeInPath = currentNode;
       while (nodeInPath) {
-        if (nodeInPath.index !== startIndex && nodeInPath.index !== endIndex) {
-          path.addIndex(nodeInPath.index);
-        }
+        path.addIndex(nodeInPath.index);
         nodeInPath = nodeInPath.parent;
       }
       break;

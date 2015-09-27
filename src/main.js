@@ -28,6 +28,10 @@ renderer.keepSizeToWindow((tileSize) => {
 });
 
 mouse.setMoveHandler((x, y) => {
+  update();
+});
+
+function update() {
   const trackerCol = Math.floor(tracker.x / currentTileSize);
   const trackerRow = Math.floor(tracker.y / currentTileSize);
   const mouseX = renderer.convertToViewCoords('x', mouse.x);
@@ -39,7 +43,7 @@ mouse.setMoveHandler((x, y) => {
   const end = new Tile(mouseRow, mouseCol);
 
   currentPath = pathfinder.findPath(map, start, end);
-});
+}
 
 function render() {
   if (!initialized) return;
@@ -51,6 +55,9 @@ function render() {
 
 function tick() {
   requestAnimationFrame(tick);
+
+  // tracker.y += 2;
+  update();
 
   render();
 }

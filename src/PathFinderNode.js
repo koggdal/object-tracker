@@ -15,17 +15,17 @@ export default class PathFinderNode {
     const valueFactor = map.data[this.index] || 1;
 
     let isDiagonal = false;
-    // if (parent) {
-    //   const col = this.index % map.cols;
-    //   const row = Math.floor(this.index / map.cols);
-    //   const parentCol = parent.index % map.cols;
-    //   const parentRow = Math.floor(parent.index / map.cols);
-    //   if (col !== parentCol && row !== parentRow) {
-    //     isDiagonal = true;
-    //   }
-    // }
+    if (parent) {
+      const col = this.index % map.cols;
+      const row = Math.floor(this.index / map.cols);
+      const parentCol = parent.index % map.cols;
+      const parentRow = Math.floor(parent.index / map.cols);
+      if (col !== parentCol && row !== parentRow) {
+        isDiagonal = true;
+      }
+    }
 
-    const gCost = isDiagonal ? Infinity : 10 * valueFactor;
+    const gCost = isDiagonal ? (14 * valueFactor) : (10 * valueFactor);
 
     return parentCost + gCost;
   }
