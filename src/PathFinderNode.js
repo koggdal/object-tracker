@@ -1,3 +1,7 @@
+const IS_DIAGONAL_ALLOWED = false;
+const COST_DIAGONAL = 14;
+const COST_AXIS_ALIGNED = 10;
+
 export default class PathFinderNode {
 
   constructor(index = 0, parent = null) {
@@ -25,7 +29,8 @@ export default class PathFinderNode {
       }
     }
 
-    const gCost = isDiagonal ? (14 * valueFactor) : (10 * valueFactor);
+    const diagonalCost = IS_DIAGONAL_ALLOWED ? COST_DIAGONAL : Infinity;
+    const gCost = (isDiagonal ? diagonalCost : COST_AXIS_ALIGNED) * valueFactor;
 
     return parentCost + gCost;
   }

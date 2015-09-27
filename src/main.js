@@ -45,8 +45,49 @@ function update() {
   currentPath = pathfinder.findPath(map, start, end);
 }
 
+function moveTracker() {
+  if (!currentPath) return;
+
+  if (currentPath.hasReachedEnd()) return;
+
+  const differentPath = tracker.trackingPath !== currentPath;
+
+  const nextIndex = currentPath.getFirstIndex();
+  const nextTileCol = nextIndex % map.cols;
+  const nextTileRow = Math.floor(nextIndex / map.cols);
+  const nextTileX = nextTileCol * currentTileSize + currentTileSize / 2;
+  const nextTileY = nextTileRow * currentTileSize + currentTileSize / 2;
+
+  if (differentPath || !tracker.incrementX || !tracker.incrementY) {
+    const diffX = nextTileX - tracker.x;
+    const diffY = nextTileY - tracker.y;
+    const diffDiag = Math.sqrt(diffX * diffX + diffY * diffY);
+    const steps = diffDiag / tracker.speed;
+    const stepDiffX = diffX / steps;
+    const stepDiffY = diffY / steps;
+
+    tracker.incrementX = stepDiffX;
+    tracker.incrementY = stepDiffY;
+    tracker.trackingPath = currentPath;
+  }
+
+  tracker.x += tracker.incrementX;
+  tracker.y += tracker.incrementY;
+
+  const hasReachedX = (tracker.x >= nextTileX - 1) && (tracker.x <= nextTileX + 1);
+  const hasReachedY = (tracker.y >= nextTileY - 1) && (tracker.y <= nextTileY + 1);
+
+  if (hasReachedX && hasReachedY) {
+    currentPath.removeFirstIndex();
+    tracker.incrementX = 0;
+    tracker.incrementY = 0;
+  }
+}
+
 function render() {
   if (!initialized) return;
+
+  moveTracker();
 
   renderer.clear();
   renderer.renderMap(currentPath);
@@ -55,9 +96,6 @@ function render() {
 
 function tick() {
   requestAnimationFrame(tick);
-
-  // tracker.y += 2;
-  update();
 
   render();
 }
