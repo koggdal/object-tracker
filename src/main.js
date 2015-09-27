@@ -36,8 +36,15 @@ function update() {
   const trackerRow = Math.floor(tracker.y / currentTileSize);
   const mouseX = renderer.convertToViewCoords('x', mouse.x);
   const mouseY = renderer.convertToViewCoords('y', mouse.y);
-  const mouseCol = Math.min(map.cols - 1, Math.floor(mouseX / currentTileSize));
-  const mouseRow = Math.min(map.rows - 1, Math.floor(mouseY / currentTileSize));
+  const mouseCol = Math.floor(mouseX / currentTileSize);
+  const mouseRow = Math.floor(mouseY / currentTileSize);
+  const mouseWithinX = mouseCol >= 0 && mouseCol < map.cols;
+  const mouseWithinY = mouseRow >= 0 && mouseRow < map.rows;
+
+  if (!mouseWithinX || !mouseWithinY) {
+    currentPath = null;
+    return;
+  }
 
   const start = new Tile(trackerRow, trackerCol);
   const end = new Tile(mouseRow, mouseCol);
