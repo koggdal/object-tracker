@@ -1,4 +1,4 @@
-const IS_DIAGONAL_ALLOWED = true;
+const IS_DIAGONAL_ALLOWED = false;
 const COST_DIAGONAL = 14;
 const COST_AXIS_ALIGNED = 10;
 
