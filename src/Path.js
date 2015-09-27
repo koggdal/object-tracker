@@ -1,15 +1,30 @@
 export default class Path {
 
   constructor() {
-    this.indices = {};
+    this.indexMap = {};
+    this.indices = [];
   }
 
   addIndex(index) {
-    this.indices[index] = true;
+    this.indices.push(index);
+    this.indexMap[index] = true;
   }
 
   hasIndex(index) {
-    return !!this.indices[index];
+    return !!this.indexMap[index];
+  }
+
+  getFirstIndex() {
+    return this.indices[this.indices.length - 1];
+  }
+
+  removeFirstIndex() {
+    const index = this.indices.pop();
+    delete this.indexMap[index];
+  }
+
+  hasReachedEnd() {
+    return this.indices.length === 0;
   }
 
 }
