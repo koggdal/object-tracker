@@ -145,10 +145,6 @@ function renderMap(path) {
     const isObstacle = tileValue === 1;
     const isInPath = path.hasIndex(i);
 
-    canvasContext.beginPath();
-    canvasContext.rect(x, y, tileSize, tileSize);
-    canvasContext.closePath();
-
     if (isObstacle || isInPath) {
       if (isObstacle) {
         canvasContext.fillStyle = theme.obstacleColor;
@@ -159,13 +155,13 @@ function renderMap(path) {
         canvasContext.lineWidth = dpi(theme.pathBorderThickness);
         canvasContext.strokeStyle = theme.pathBorderColor;
       }
-      canvasContext.fill();
+      canvasContext.fillRect(x, y, tileSize, tileSize);
     } else {
       canvasContext.lineWidth = dpi(theme.tileBorderThickness);
       canvasContext.strokeStyle = theme.tileBorderColor;
     }
 
-    canvasContext.stroke();
+    canvasContext.strokeRect(x, y, tileSize, tileSize);
   }
 
   canvasContext.lineWidth = dpi(theme.viewBorderThickness);
