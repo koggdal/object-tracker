@@ -31,6 +31,36 @@ mouse.setMoveHandler((x, y) => {
   update();
 });
 
+mouse.setClickHandler((x, y) => {
+  const lockedX = renderer.convertToViewCoords('x', x);
+  const lockedY = renderer.convertToViewCoords('y', y);
+  const currentCol = Math.min(map.cols - 1, Math.floor(lockedX / currentTileSize));
+  const currentRow = Math.min(map.rows - 1, Math.floor(lockedY / currentTileSize));
+
+  const index = (currentRow * map.rows) + currentCol;
+  const tileValue = map.data[index];
+
+  if (map.locked) {
+    // When clicking the locked title, unlock.
+    if (map.lockedCol === currentCol && map.lockedRow === currentRow) {
+      map.locked = false;
+    }
+    // Else toggle what's at the coordinate of the map.
+    else {
+      map.data[index] = 1 - map.data[index];
+    }
+  }
+  else {
+    if (tileValue === 0) {
+      map.locked = true;
+      map.lockedCol = currentCol;
+      map.lockedRow = currentRow;
+    }
+  }
+
+  update();
+});
+
 function update() {
   const trackerCol = Math.floor(tracker.x / currentTileSize);
   const trackerRow = Math.floor(tracker.y / currentTileSize);
@@ -47,7 +77,11 @@ function update() {
   }
 
   const start = new Tile(trackerRow, trackerCol);
-  const end = new Tile(mouseRow, mouseCol);
+  let end;
+  if (map.locked)
+    end = new Tile(map.lockedRow, map.lockedCol);
+  else
+    end = new Tile(mouseRow, mouseCol);
 
   currentPath = pathfinder.findPath(map, start, end);
 }
